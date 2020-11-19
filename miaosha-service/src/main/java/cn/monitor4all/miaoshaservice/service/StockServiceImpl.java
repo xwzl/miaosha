@@ -5,10 +5,10 @@ import cn.monitor4all.miaoshadao.mapper.StockMapper;
 import cn.monitor4all.miaoshadao.utils.CacheKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -16,10 +16,10 @@ public class StockServiceImpl implements StockService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StockServiceImpl.class);
 
-    @Autowired
+    @Resource
     private StockMapper stockMapper;
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Override

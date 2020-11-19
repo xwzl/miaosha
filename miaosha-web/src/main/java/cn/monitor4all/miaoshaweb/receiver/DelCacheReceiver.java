@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 @Component
 @RabbitListener(queues = "delCache")
@@ -14,7 +16,7 @@ public class DelCacheReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DelCacheReceiver.class);
 
-    @Autowired
+    @Resource
     private StockService stockService;
 
     @RabbitHandler

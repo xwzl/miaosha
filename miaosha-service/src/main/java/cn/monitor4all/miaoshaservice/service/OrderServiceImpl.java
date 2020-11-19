@@ -8,31 +8,28 @@ import cn.monitor4all.miaoshadao.mapper.UserMapper;
 import cn.monitor4all.miaoshadao.utils.CacheKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collections;
+import javax.annotation.Resource;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
+    @Resource
     private StockService stockService;
 
-    @Autowired
+    @Resource
     private StockOrderMapper orderMapper;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Override
@@ -53,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         //乐观锁更新库存
         boolean success = saleStockOptimistic(stock);
         if (!success){
-            throw new RuntimeException("过期库存值，更新失败");
+            throw new RuntimeException("过期库存值，更新失败过期库存值，更新失败");
         }
         //创建订单
         createOrder(stock);

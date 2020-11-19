@@ -8,27 +8,30 @@ import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.*;
+import javax.annotation.Resource;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class OrderController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
-    @Autowired
+    @Resource
     private OrderService orderService;
 
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private StockService stockService;
 
-    @Autowired
+    @Resource
     private AmqpTemplate rabbitTemplate;
 
     // Guava令牌桶：每秒放行10个请求
@@ -67,12 +70,12 @@ public class OrderController {
     @ResponseBody
     public String createOptimisticOrder(@PathVariable int sid) {
         // 1. 阻塞式获取令牌
-        LOGGER.info("等待时间" + rateLimiter.acquire());
+        //LOGGER.info("等待时间" + rateLimiter.acquire());
         // 2. 非阻塞式获取令牌
-//        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
-//            LOGGER.warn("你被限流了，真不幸，直接返回失败");
-//            return "你被限流了，真不幸，直接返回失败";
-//        }
+        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+            LOGGER.warn("你被限流了，真不幸，直接返回失败");
+            return "你被限流了，真不幸，直接返回失败";
+        }
         int id;
         try {
             id = orderService.createOptimisticOrder(sid);

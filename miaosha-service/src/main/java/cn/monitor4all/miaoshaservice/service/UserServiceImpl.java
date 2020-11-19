@@ -6,11 +6,11 @@ import cn.monitor4all.miaoshadao.mapper.UserMapper;
 import cn.monitor4all.miaoshadao.utils.CacheKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
     private static final String SALT = "randomString";
     private static final int ALLOW_COUNT = 10;
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private StockService stockService;
 
     @Override
